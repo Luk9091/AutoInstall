@@ -40,6 +40,8 @@ function createRaport(){
     mkdir -p ${MY_PATH}/Chapters
     mkdir -p ${MY_PATH}/Measure
 
+    cp /home/lukasz/.config/tex/agh_logo.jpg ${MY_PATH}/Img
+
     if [[ ! ( -e "${MY_PATH}/main.tex" ) ]]; then
         cp ${TEX_TEMPLATES}/raport_template.tex ${MY_PATH}/main.tex
     else

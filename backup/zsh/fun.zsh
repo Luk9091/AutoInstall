@@ -1,3 +1,6 @@
+source '/home/lukasz/.config/zsh/functions/connection.sh'
+
+
 function timeof() {
     start=$(date +%s.%6N)
     "$@"

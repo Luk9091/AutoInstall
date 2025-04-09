@@ -26,5 +26,5 @@ cd openocd
 make -j 4
 sudo make install
 
-echo -e "export PICO_SDK_PATH=/opt/pico/pico-sdk" >> ~/.profile
-echo -e "export FREERTOS_KERNEL_PATH=/opt/pico/FreeRTOS-Kernel" >> ~/.profile
+#echo -e "export PICO_SDK_PATH=/opt/pico/pico-sdk" >> ~/.profile
+#echo -e "export FREERTOS_KERNEL_PATH=/opt/pico/FreeRTOS-Kernel" >> ~/.profile

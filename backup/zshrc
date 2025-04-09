@@ -35,11 +35,6 @@ bindkey "^[l"     kill-word
 bindkey "^[h"     backward-kill-word
 
 
-
-# Additionals
-source /opt/DriversAndScripts/Connection.sh
-
-
 # Save history in cache:
 HISTFILE=~/.cache/zsh/history
 if [[ ! -f $HISTFILE ]] then # Creates history file if it doesn't exist
@@ -60,8 +55,4 @@ setopt hist_verify
 setopt hist_expire_dups_first
 
 setopt push_d_ignore_dups
-
-# PICO SDK:
-export PICO_SDK_PATH=/opt/pico/pico-sdk
-
 

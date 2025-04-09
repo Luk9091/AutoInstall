@@ -4,14 +4,21 @@ source colors.sh
 source packages.sh
 
 # Configuration:
-SHELL_CONFIG=false
+SHELL_CONFIG=true
 activeNumlock=false
-install_RUST=false
-install_ISE=false
-install_RIVAL=false
-install_PICO_SDK=false
+install_RUST=true
+install_ISE=true
+install_RIVAL=true
+install_PICO_SDK=true
 
 myPath=$(pwd)
+
+echo -e "${ORANGE}Enter your email:${NC}"
+read EMAIL
+
+for del in $REMOVED; do
+    sudo apt remove --purge $del -y
+done
 
 # Pre update
 (sudo apt update && sudo apt upgrade -y) || exit
@@ -42,32 +49,20 @@ fi
 
 
 
-# Always active numpad:
-if [ $activeNumlock ]; then
-    sudo apt install numlockx -y
-    numlockx on
-fi
-
-# Install brave:
+#curl -fsS https://dl.brave.com/install.sh | sh Install brave:
 if [ -d $(which brave-browser) ]; then
-    sudo apt install curl
-
-    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
-    sudo apt update
-
-    sudo apt install brave-browser -y
+    curl -fsS https://dl.brave.com/install.sh | sh
 fi
 
 
 # To installing ISE:
 if [ $install_ISE ]; then
     echo -e "${RED}ISE dependency install${NC}"
-    echo -e "${BLUE}Add this line to: ${YELLOW}/ect/apt/source.list${NC}"
-    echo -e "${YELLOW}deb http://ma.archive.ubuntu.com/ubuntu lunar main restricted universe multiverse${NC}"
-    read -p "Press ${RED}ANY${NC} to continue" -rsn1 key
+    sudo add-apt-repository universe
+    sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
+#    echo -e "${BLUE}Add this line to: ${YELLOW}/ect/apt/source.list${NC}"
+#    echo -e "${YELLOW}deb http://ma.archive.ubuntu.com/ubuntu lunar main restricted universe multiverse${NC}"
+#    read -p "Press ${RED}ANY${NC} to continue" -rsn1 key
     sudo apt update
     # sudo add-apt-repository universe -y
     sudo apt-get install libncurses5 -y
@@ -95,8 +90,6 @@ fi
 # Add ssh to git
 SSH_CHECK=$(ssh -T git@github.com 2>&1)
 if [[ "$SSH_CHECK" != "Hi Luk9091! You've successfully authenticated, but GitHub does not provide shell access." ]]; then
-    echo -e "${ORANGE}Enter your email:${NC}"
-    read EMAIL
     ssh-keygen -t rsa -b 4096 -C $EMAIL
     echo -e "\n##################################################\n"
 
@@ -110,7 +103,7 @@ if [[ "$SSH_CHECK" != "Hi Luk9091! You've successfully authenticated, but GitHub
 
 # Git alias:
     git config --global alias.adog "log --all --decorate --oneline --graph"
-    git config --global alias.alog "log --graph  --format=format:"%C(yellow)%h%C(reset) %C(bold green)(%ar) %C(bold dim cyan)%an %C(reset)%s""
+    git config --global alias.alog 'log --graph  --format=format:"%C(yellow)%h%C(reset) %C(bold green)(%ar) %C(bold dim cyan)%an %C(reset)%s"'
     git config --global alias.cm   "commit -m"
     git config --global alias.cma  "commit --amend -m"
     git config --global alias.ca   "commit --amend --no-edit"
@@ -157,25 +150,33 @@ if [[ $SHELL_CONFIG &&  ! ${SHELL##*/} == "zsh" ]]; then
 fi 
 
 cp -R "${myPath}/backup/nvim" ~/.config
-cp    "${myPath}/backup/.tmux.conf" ~/.tmux.conf
+cp    "${myPath}/backup/tmux.conf" ~/.tmux.conf
 cp -R "${myPath}/backup/tex" ~/.config
 cp    "${myPath}/colors.sh" ~/.config
+
+
+# Add zoxide
+# curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 # Add user to dialout
 sudo adduser lukasz dialout 2> /dev/null
 
 # Set default file size
 gsettings set org.gnome.nautilus.window-state initial-size '(850,1050)'
+ 
+# for EXT in $GNOME_EXTENSIONS; do
+#     gnome-extensions install $EXT
+# done
 
 
 # Auto run hotspot:
-HOTSPOT="# Enable Hostspot\n \
-if [[ $( nmcli device status | awk '/enp3s0/{print $3}' ) == "połączono" ]]; then\n \
-\tif [[ $(nmcli device status | awk '/^wlo1/{print $3}') == "rozłączono" ]]; then\n \
-\t\tnmcli connection up Hotspot\n \
-\tfi\n \
-fi\n"
-
-echo -e $HOTSPOT >> ~/.profile
+# HOTSPOT="# Enable Hostspot\n \
+# if [[ $( nmcli device status | awk '/enp3s0/{print $3}' ) == "połączono" ]]; then\n \
+# \tif [[ $(nmcli device status | awk '/^wlo1/{print $3}') == "rozłączono" ]]; then\n \
+# \t\tnmcli connection up Hotspot\n \
+# \tfi\n \
+# fi\n"
+# 
+# echo -e $HOTSPOT >> ~/.profile
 
 echo -e "\a"

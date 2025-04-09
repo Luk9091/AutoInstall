@@ -6,12 +6,12 @@ REPOS="ppa:rockowitz/ddcutil"
 PACKAGES="neovim \
 net-tools \
 build-essential \
+clang \
 gcc \
 g++ \
 gcc-avr \
 avr-libc \
 avrdude \
-python3 \
 qalc \
 cu \
 zsh \
@@ -20,6 +20,7 @@ tmux \
 git \
 unrar \
 rar \
+file-roller \
 texlive \
 latexmk \
 texlive-latex-extra \
@@ -27,23 +28,33 @@ texlive-lang-polish \
 texlive-fonts-extra \
 texlive-bibtex-extra \
 curl \
+openssh-server \
 htop \
-lm-sensors \
-ddcutil \
-ddcui \
-libusb-1.0-0-dev \
+# lm-sensors \
+# ddcutil \
+# ddcui \
+# libusb-1.0-0-dev \
 libudev-dev \
 wine \
-telegram \
-kicad \
 gnome-tweaks \
 gnome-shell-extension-manager \
 trash-cli \
-dotnet-sdk-8.0 \
-file-roller \
 gh \
-wmctrl \
-shellcheck"
+# wmctrl \
+shellcheck \
+fzf \
+flatpak"
+
+
+REMOVED="gnome-calculator \
+gnome-calendar \
+gnome-www-browser \
+gnome-text-editor \
+thunderbird
+"
+
+
+
 
 PYTHON_LIB="python3-tk \
 python3-crontab \
@@ -53,7 +64,6 @@ python3-numpy \
 python3-pandas \
 python3-matplotlib \
 python3-serial \
-python3-venv \
 python3-dev \
 python3-usb \
 python3-setuptools"
@@ -78,6 +88,5 @@ aaron-bond.better-comments"
 
 
 GNOME_EXTENSIONS="transparent-top-bar@ftpix.com \
-dash-to-dock@micxgx.gmail.com \
 highlight-focus@pimsnel.com \
 gTile@vibou"
