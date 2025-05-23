@@ -109,7 +109,9 @@ if [[ "$SSH_CHECK" != "Hi Luk9091! You've successfully authenticated, but GitHub
     git config --global alias.ca   "commit --amend --no-edit"
 
 # Profile settings:
+    git config --global user.email $EMAIL
     git config --global user.name "Łukasz Przystupa"
+    git config --global init.defaultBranch main
 fi
 
 
